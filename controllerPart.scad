@@ -16,7 +16,7 @@ $fn = 300;
 /**
  * create a square/reqtangle but the negative x side is rounded.
  */
-module signForm(x,z,y) { 
+module signForm(x,y,z) { 
     cylinderRadius = y/2;
 
     cube([x-cylinderRadius, z, y]);
@@ -33,15 +33,17 @@ module connectivity() {
     {
         signForm(
             portWidth,
-            portDepth,
-            portHeight
+            portHeight,
+            portDepth
+
         );
     
-        translate([0,-.001,grove])
+        translate([0, -.001, grove])
             signForm(
                 portWidth-grove*2,
-                portDepth+.002,
-                portHeight-grove*2
+                portHeight-grove*2,
+                portDepth+.002
+
             );
     
     }
@@ -65,8 +67,8 @@ color("#3f3f3f")
 translate([0,portDepth,(portHeight-holdingPadding)/-2])
     signForm(
         portWidth+holdingPadding,
-        holdingDepth,
-        portHeight+holdingPadding
+        portHeight+holdingPadding,
+        holdingDepth
     );
 
 //*/// end handle
