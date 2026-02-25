@@ -1,12 +1,18 @@
 
 portWidth = 36; // mm could be 35 mm
 portHeight = 11; // mm could be 10 mm
-deviderHorPlacement = 16;
+deviderHorPlacement = portWidth-16;
 portDepth = 9; // mm should be fine...
+conectorRadius = 3/2;
 
 holdingDepth = 30; // nice!
 holdingPadding = 5; // nice!
 grove = 1;
+
+cabblePadding = 4;
+
+
+
 $fn = 300;
 
 
@@ -26,8 +32,9 @@ module signForm(x,y,z) {
 }
 // -]]
 
+// module cableHole(width) {}
 
-module connectivity() {
+module alighnmentGroves() {
     // outer ring
     difference()
     {
@@ -35,7 +42,6 @@ module connectivity() {
             portWidth,
             portHeight,
             portDepth
-
         );
     
         translate([0, -.001, grove])
@@ -50,27 +56,63 @@ module connectivity() {
     //*///
     
     // devider
-
-     //  
     color("#ff0000")
-    translate([deviderHorPlacement,0,grove])
+    translate([deviderHorPlacement-portHeight ,0,grove])
     cube([grove, portDepth, portHeight-grove*2+.1]);
 }
 //[[- composistion
 
- color("#c3c3cf")
-connectivity();
+color("#c3c3cf")
+alighnmentGroves();
 
 
 // handle and logistics room
 color("#3f3f3f")
 translate([0,portDepth,(portHeight-holdingPadding)/-2])
-    signForm(
-        portWidth+holdingPadding,
-        portHeight+holdingPadding,
-        holdingDepth
-    );
+    difference() 
+    {
 
-//*/// end handle
+        signForm(
+            portWidth+holdingPadding,
+            portHeight+holdingPadding,
+            holdingDepth
+        );
+        translate([0,1,grove])
+        signForm(
+            portWidth+holdingPadding-grove*2,
+            portHeight+holdingPadding-grove*2,
+            holdingDepth+0.2
+        );
+    }
+//*/// handle
 
-//-]]
+// cable alignment circles
+translate([
+    1,
+    portDepth+2, // two to make it go through
+    portHeight/2
+    ])
+rotate([90,90,0]) 
+    for (offset = [0:cabblePadding:cabblePadding*2]) {
+        translate([0,offset - portHeight/2,0])
+        cylinder(
+            h=portDepth+grove,
+            r=conectorRadius
+        );
+    }
+
+translate([
+    portWidth - conectorRadius*2 - grove,
+    portDepth+2, // two to make it go through,
+    portHeight/2
+])
+rotate([90,90,0]) 
+    for (offset = [0:cabblePadding:cabblePadding*3]) {
+        translate([0,-offset-portHeight/2,0])
+        cylinder(
+            h=portDepth+grove,
+            r=conectorRadius
+        );
+    }
+
+//*/// cable alignment circles
