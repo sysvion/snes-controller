@@ -44,25 +44,28 @@ module alighnmentGroves() {
             portDepth
         );
     
-        translate([0, -.001, grove])
+        translate([0, -1, grove])
             signForm(
                 portWidth-grove*2,
                 portHeight-grove*2,
-                portDepth+.002
+                portDepth+2
 
             );
     
     }
     //*///
     
+    
+    
     // devider
     color("#ff0000")
     translate([deviderHorPlacement-portHeight ,0,grove])
-    cube([grove, portDepth, portHeight-grove*2+.1]);
+    cube([grove, portDepth, portHeight-grove*1]);
 }
 //[[- composistion
 
 color("#c3c3cf")
+translate([grove/2,0,-grove/2])
 alighnmentGroves();
 
 
@@ -81,20 +84,23 @@ translate([0,portDepth,(portHeight-holdingPadding)/-2])
         signForm(
             portWidth+holdingPadding-grove*2,
             portHeight+holdingPadding-grove*2,
-            holdingDepth+0.2
+            holdingDepth+0.0000000001
         );
     }
 //*/// handle
 
 // cable alignment circles
+cablesStartX = 
+    conectorRadius*2 // radius 
+    - grove;
 translate([
     1,
-    portDepth+2, // two to make it go through
+    cablesStartX, // grove to make it go through for 
     portHeight/2
     ])
 rotate([90,90,0]) 
     for (offset = [0:cabblePadding:cabblePadding*2]) {
-        translate([0,offset - portHeight/2,0])
+        translate([0,offset + grove - portHeight/2,0])
         cylinder(
             h=portDepth+grove,
             r=conectorRadius
