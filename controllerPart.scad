@@ -1,18 +1,17 @@
-grove = 1;
+grove = 1.25;
 
-portWidth = 36; // mm could be 35 mm
-portHeight = 11; // mm could be 10 mm
+portWidth = 35; // mm could be 35 mm
+portHeight = 10; // mm could be 10 mm
 deviderHorPlacement = 16.7 - grove*2;
 portDepth = 9; // mm should be fine...
-conectorRadius = 3/2;
+conectorRadius = 1.8;
 
-holdingDepth = 30; // nice!
+holdingDepth = 4; // nice!
 holdingPadding = 5; // nice!
 
 cabblePadding = 4;
-
-furthestSmallHole = 14 - conectorRadius*2;
-furthestLargeHole = 32.8 -  conectorRadius*2;
+furthestSmallHole = 13.55 - conectorRadius*2;
+furthestLargeHole = 31.3 -  conectorRadius*2;
 
 $fn = 300;
 
@@ -58,14 +57,11 @@ module alighnmentGroves() {
     
     
     
-    // devider
-    color("#ff0000")
-    translate([cablesStartX+deviderHorPlacement,0,grove])
-    cube([grove, portDepth, portHeight-grove*1]);
+    
 }
 
 module handleroom() {
-    translate([0,portDepth,(portHeight-holdingPadding)/-2])
+    translate([0,portDepth,(portHeight-holdingPadding+grove)/-2])
         difference() 
         {
 
@@ -79,24 +75,27 @@ module handleroom() {
         signForm(
             portWidth+holdingPadding-grove*2,
             portHeight+holdingPadding-grove*2,
-            holdingDepth+ .001
+            holdingDepth+.001
         );
     }
 }
 
 // cable alignment circles
-cablesStartX = 
-    - conectorRadius*2 
-    - grove/2  // radius 
-   ;    
 cableStartY = portDepth+grove+.01; // grove to make it go through 
 cablesStartZ = portHeight/2 - grove/2;
 
 // conectorRadius*2+grove/2
 module CableCluster(radius, lenght, spacingBetween, cableCount, furthest) {
+    
+    cablesStartX = 0
+        + radius
+        - (portHeight-grove*2)/2
+        + grove/2
+    ;
+    
     translate([
     cablesStartX,
-    cableStartY,
+    cableStartY+lenght*0.0001,
     cablesStartZ
     ])
 rotate([90,90,0]) 
@@ -120,10 +119,11 @@ rotate([90,90,0])
 difference() 
 {
     union() {
+        
         color("#c3c3cf")
         translate([grove/2,0,-grove/2])
         alighnmentGroves();
-
+        
 
         color("#3f3f3f")
         handleroom();
@@ -143,19 +143,20 @@ difference()
         );
     };
     union() {
+        
         CableCluster(
             conectorRadius/2,
             portDepth+grove+200, // yes 
             conectorRadius+grove/2,
             2,
-            furthestSmallHole
+            furthestSmallHole+conectorRadius/2
         );
          CableCluster(
             conectorRadius/2,
             portDepth+grove+200, // yes 
             conectorRadius+grove/2,
             3,
-            furthestLargeHole
+            furthestLargeHole+conectorRadius/2
         );
     }
 }
