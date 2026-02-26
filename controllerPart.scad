@@ -1,13 +1,13 @@
+grove = 1;
 
 portWidth = 36; // mm could be 35 mm
 portHeight = 11; // mm could be 10 mm
-deviderHorPlacement = portWidth-16;
+deviderHorPlacement = 16.7 - grove*2;
 portDepth = 9; // mm should be fine...
 conectorRadius = 3/2;
 
 holdingDepth = 30; // nice!
 holdingPadding = 5; // nice!
-grove = 1;
 
 cabblePadding = 4;
 
@@ -60,7 +60,7 @@ module alighnmentGroves() {
     
     // devider
     color("#ff0000")
-    translate([deviderHorPlacement-portHeight ,0,grove])
+    translate([cablesStartX+deviderHorPlacement,0,grove])
     cube([grove, portDepth, portHeight-grove*1]);
 }
 
@@ -74,6 +74,7 @@ module handleroom() {
             portHeight+holdingPadding,
             holdingDepth
         );
+         
         translate([0,1,grove])
         signForm(
             portWidth+holdingPadding-grove*2,
@@ -126,20 +127,19 @@ difference()
 
         color("#3f3f3f")
         handleroom();
-
         CableCluster(
-            conectorRadius,
-            portDepth+grove-.001,
-            grove/2,
-            2,
-            furthestSmallHole
+            radius=conectorRadius,
+            lenght=portDepth+grove-.001,
+            spacingBetween=grove/2,
+            cableCount=2,
+            furthest=furthestSmallHole
         );
         CableCluster(
-            conectorRadius,
-            portDepth+grove-.001,
-            grove/2,
-            3,
-            furthestLargeHole
+            radius=conectorRadius,
+            lenght=portDepth+grove-.001,
+            spacingBetween=grove/2,
+            cableCount=3,
+            furthest=furthestLargeHole
         );
     };
     union() {
