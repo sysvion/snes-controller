@@ -1,16 +1,16 @@
 grove = 1.25;
 
-portWidth = 35; // mm could be 35 mm
-portHeight = 10; // mm could be 10 mm
+portWidth = 34.6; // mm could be 35 mm
+portHeight = 8.9; // mm could be 10 mm
 deviderHorPlacement = 16.7 - grove*2;
 portDepth = 9; // mm should be fine...
-conectorRadius = 1.8;
+conectorRadius = 1.7;
 
-holdingDepth = 4; // nice!
+holdingDepth = 30; // nice!
 holdingPadding = 5; // nice!
 
 cabblePadding = 4;
-furthestSmallHole = 13.55 - conectorRadius*2;
+furthestSmallHole = 13 - conectorRadius*2;
 furthestLargeHole = 31.3 -  conectorRadius*2;
 
 $fn = 300;
