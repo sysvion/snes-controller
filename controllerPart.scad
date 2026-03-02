@@ -4,7 +4,8 @@ portWidth = 34.6; // mm could be 35 mm
 portHeight = 8.9; // mm could be 10 mm
 deviderHorPlacement = 16.7 - grove*2;
 portDepth = 9; // mm should be fine...
-conectorRadius = 1.7;
+conectorRadius = 1.5;
+connectorSetback = 2;
 
 holdingDepth = 30; // nice!
 holdingPadding = 5; // nice!
@@ -129,21 +130,20 @@ difference()
         handleroom();
         CableCluster(
             radius=conectorRadius,
-            lenght=portDepth+grove-.001,
+            lenght=portDepth+grove-.001-connectorSetback,
             spacingBetween=grove/2,
             cableCount=2,
             furthest=furthestSmallHole
         );
         CableCluster(
             radius=conectorRadius,
-            lenght=portDepth+grove-.001,
+            lenght=portDepth+grove-.001-connectorSetback,
             spacingBetween=grove/2,
             cableCount=3,
             furthest=furthestLargeHole
         );
     };
     union() {
-        
         CableCluster(
             conectorRadius/2,
             portDepth+grove+200, // yes 
